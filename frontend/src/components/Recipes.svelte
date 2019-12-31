@@ -1,12 +1,12 @@
 <script>
-  import axios from "axios";
   import { onMount } from "svelte";
+  import request from "/utils/request";
   import Recipe from "./Recipe.svelte";
 
   let promise = Promise.resolve({data: []});
 
   onMount(() => {
-    promise = axios.get("http://localhost:3000/recipes").then(response => response.data);
+    promise = request.get("recipes").then(response => response.data);
   });
 </script>
 
