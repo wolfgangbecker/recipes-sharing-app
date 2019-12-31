@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "parcel src/index.html",
+    "start:mock-server": "json-server --watch db.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "browserslist": [
@@ -13,6 +14,7 @@
   "author": "Wolfgang Becker <wolli.becker@gmail.com>",
   "license": "ISC",
   "devDependencies": {
+    "json-server": "0.15.1",
     "parcel-bundler": "1.12.4",
     "parcel-plugin-svelte": "4.0.5",
     "svelte": "3.16.7"
