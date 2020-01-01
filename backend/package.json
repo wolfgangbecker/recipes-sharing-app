@@ -1,0 +1,17 @@
+{
+  "name": "recipes-backend",
+  "version": "1.0.0",
+  "description": "Backend for recipes sharing app",
+  "main": "handler.js",
+  "dependencies": {
+    "serverless-plugin-typescript": "1.1.9",
+    "typescript": "3.7.4",
+    "serverless-offline": "5.12.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "sls offline"
+  },
+  "author": "Wolfgang Becker <wolli.becker@gmail.com>",
+  "license": "ISC"
+}
