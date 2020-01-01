@@ -1,7 +1,8 @@
 <script>
   import { onMount } from "svelte";
+
   import request from "/utils/request";
-  import Recipe from "./Recipe.svelte";
+  import Recipe from "/components/Recipe.svelte";
 
   let promise = Promise.resolve({data: []});
 

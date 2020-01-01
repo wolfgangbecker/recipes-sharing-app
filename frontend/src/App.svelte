@@ -1,9 +1,9 @@
 <script>
   import { Router, Link, Route } from "svelte-routing";
 
-  import Recipes from "./components/Recipes.svelte"
-  import NewRecipe from "./components/NewRecipe.svelte"
-  import NotFound from "./components/NotFound.svelte"
+  import Recipes from "./pages/Recipes.svelte"
+  import NewRecipe from "./pages/NewRecipe.svelte"
+  import NotFound from "./pages/NotFound.svelte"
 
   import FlashMessage from "./components/FlashMessage.svelte"
   import NavLink from "./components/NavLink.svelte"
