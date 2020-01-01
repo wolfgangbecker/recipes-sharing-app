@@ -5,7 +5,8 @@
   import NewRecipe from "./components/NewRecipe.svelte"
   import NotFound from "./components/NotFound.svelte"
 
-  import NavLink from "./NavLink.svelte"
+  import FlashMessage from "./components/FlashMessage.svelte"
+  import NavLink from "./components/NavLink.svelte"
 </script>
 
 <style>
@@ -30,6 +31,7 @@
       </div>
     </div>
     <div class="ui segment">
+      <FlashMessage />
       <Route path="recipes" component="{Recipes}" />
       <Route path="recipes/new" component="{NewRecipe}" />
       <Route path="*"><NotFound /></Route>
