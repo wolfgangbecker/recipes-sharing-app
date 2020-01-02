@@ -1,6 +1,7 @@
 import * as AWS from 'aws-sdk';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 
+import logger from '../utils/logger';
 import { Recipe } from '../models/Recipe';
 
 export class RecipesAccess {
@@ -10,6 +11,8 @@ export class RecipesAccess {
   ) {}
 
   async getAllRecipes(): Promise<Recipe[]> {
+    logger.info("Getting all Recipes");
+
     const result = await this.docClient.scan({
       TableName: this.recipesTable
     }).promise();
@@ -20,7 +23,7 @@ export class RecipesAccess {
 
 function createDynamoDBClient() {
   if(process.env.IS_OFFLINE) {
-    console.log('Creating a local DynamoDB instance')
+    logger.info('Creating a local DynamoDB instance')
 
     return new AWS.DynamoDB.DocumentClient({
       region: 'localhost',

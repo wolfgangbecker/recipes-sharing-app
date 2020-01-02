@@ -6,7 +6,8 @@
   "dependencies": {
     "@types/aws-lambda": "8.10.39",
     "serverless-plugin-typescript": "1.1.9",
-    "typescript": "3.7.4"
+    "typescript": "3.7.4",
+    "winston": "3.2.1"
   },
   "devDependencies": {
     "aws-sdk": "2.596.0",

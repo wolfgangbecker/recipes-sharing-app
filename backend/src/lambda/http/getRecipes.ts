@@ -1,5 +1,3 @@
-import * as AWS from 'aws-sdk';
-
 import { APIGatewayProxyHandler, APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import { getAllRecipes } from '../../businessLogic/recipes';
 
