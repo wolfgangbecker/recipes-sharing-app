@@ -4,11 +4,15 @@
   "description": "Backend for recipes sharing app",
   "main": "handler.js",
   "dependencies": {
+    "@types/aws-lambda": "8.10.39",
     "serverless-plugin-typescript": "1.1.9",
-    "typescript": "3.7.4",
+    "typescript": "3.7.4"
+  },
+  "devDependencies": {
+    "aws-sdk": "2.596.0",
+    "serverless-dynamodb-local": "0.2.38",
     "serverless-offline": "5.12.1"
   },
-  "devDependencies": {},
   "scripts": {
     "start": "sls offline"
   },
