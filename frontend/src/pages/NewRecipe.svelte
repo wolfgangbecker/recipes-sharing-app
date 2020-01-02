@@ -14,7 +14,7 @@
   const resetFields = () => {
     fields = {
       title: resetField(),
-      image: resetField(),
+      imageURL: resetField(),
       description: resetField()
     };
   };
@@ -45,21 +45,21 @@
 
   const handleSubmit = event => {
     if(validateFields()) {
-      debugger;
       return
     }
 
-    request.post("/recipes", {
-      title,
-      description,
-      image,
-      author: "John Doe" // TODO: Remove this when backend is ready
-    }).then(() => {
-      message.show({ type: "success", title: "Success" })
-      resetFields();
-    }).catch(() => {
-      message.show({ type: "error", title: "Error" })
-    })
+    const body = Object.entries(fields).reduce((acc, [field, values]) => {
+      acc[field] = values.value;
+      return acc;
+    }, {})
+
+    request.post("/recipes", body)
+      .then(() => {
+        message.show({ type: "success", title: "Success" })
+        resetFields();
+      }).catch(() => {
+        message.show({ type: "error", title: "Error" })
+      })
   }
 </script>
 
@@ -75,16 +75,16 @@
       on:keydown={resetValidation}
       bind:value={fields.title.value}>
   </div>
-  <div class="field" class:error={fields.image.error}>
-    <label for="image">ImageURL</label>
+  <div class="field" class:error={fields.imageURL.error}>
+    <label for="imageURL">ImageURL</label>
     <input
       placeholder="Paste an image URL here"
       type="text"
-      id="image"
-      name="image"
+      id="imageURL"
+      name="imageURL"
       autocomplete="off"
       on:keydown={resetValidation}
-      bind:value={fields.image.value}>
+      bind:value={fields.imageURL.value}>
   </div>
   <div class="field" class:error={fields.description.error}>
     <label for="description">Description</label>

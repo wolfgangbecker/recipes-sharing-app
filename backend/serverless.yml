@@ -30,6 +30,13 @@ functions:
           path: /recipes
           method: get
           cors: true
+  CreateRecipe:
+    handler: src/lambda/http/createRecipe.handler
+    events:
+      - http:
+          path: /recipes
+          method: post
+          cors: true
 
 resources:
   Resources:
