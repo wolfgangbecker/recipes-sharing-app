@@ -53,7 +53,7 @@
       return acc;
     }, {})
 
-    request.post("/recipes", body)
+    request.post("recipes", body)
       .then(() => {
         message.show({ type: "success", title: "Success" })
         resetFields();
