@@ -1,7 +1,11 @@
 import { APIGatewayProxyHandler, APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
+import * as middy from 'middy';
+import { cors } from 'middy/middlewares'
+
 import { getAllRecipes } from '../../businessLogic/recipes';
 
-export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+
+const getRecipesHandler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const recipes = await getAllRecipes()
 
   return {
@@ -9,3 +13,5 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     body: JSON.stringify(recipes)
   };
 };
+
+export const handler = middy(getRecipesHandler).use(cors())

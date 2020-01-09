@@ -1,8 +1,11 @@
 import { APIGatewayProxyHandler, APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
+import * as middy from 'middy';
+import { cors } from 'middy/middlewares'
+
 import { createRecipe } from '../../businessLogic/recipes';
 import logger from '../../utils/logger';
 
-export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+const createRecipeHandler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   if(!event.body) {
     return {
       statusCode: 400,
@@ -10,9 +13,9 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     };
   }
 
-  const parsedBody = JSON.parse(event.body)
-
   try {
+    console.log("Body: ", event.body)
+    const parsedBody = JSON.parse(event.body)
     const recipes = await createRecipe(parsedBody)
 
     logger.info("Succesfully created: ", JSON.stringify(recipes))
@@ -21,7 +24,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       body: JSON.stringify(recipes)
     };
   } catch (error) {
-    logger.error("Error: ", error.message);
+    logger.error("Error: ", error.message, "request body: ", event.body);
 
     return {
       statusCode: 422,
@@ -29,3 +32,5 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     };
   }
 };
+
+export const handler = middy(createRecipeHandler).use(cors())

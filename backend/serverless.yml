@@ -12,6 +12,9 @@ plugins:
   - serverless-offline
   - serverless-plugin-typescript
   - serverless-dynamodb-local
+  - serverless-reqvalidator-plugin
+  - serverless-aws-documentation
+  - serverless-iam-roles-per-function
 
 custom:
   dynamodb:
@@ -21,6 +24,16 @@ custom:
       port: 8000
       inMemory: true
       migration: true
+  documentation:
+    api:
+      info:
+        version: v1.0.0
+        title: Recipes API
+        description: Serverless API for sharing recipes
+    models:
+      - name: CreateRecipeRequest
+        contentType: application/json
+        schema: ${file(src/requestSchemas/create-recipe-request.json)}
 
 functions:
   GetRecipes:
@@ -30,6 +43,12 @@ functions:
           path: /recipes
           method: get
           cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Scan
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.RECIPES_TABLE}
+
   CreateRecipe:
     handler: src/lambda/http/createRecipe.handler
     events:
@@ -37,9 +56,40 @@ functions:
           path: /recipes
           method: post
           cors: true
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: Create a new recipe
+            description: Create a new recipe
+            requestModels:
+              'application/json': CreateRecipeRequest
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:PutItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.RECIPES_TABLE}
 
 resources:
   Resources:
+    GatewayResponseDefault4XX:
+      Type: AWS::ApiGateway::GatewayResponse
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+          gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
+        ResponseType: DEFAULT_4XX
+        RestApiId:
+          Ref: ApiGatewayRestApi
+
+    RequestBodyValidator:
+      Type: AWS::ApiGateway::RequestValidator
+      Properties:
+        Name: 'request-body-validator'
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        ValidateRequestBody: true
+        ValidateRequestParameters: false
+
     RecipesTable:
       Type: AWS::DynamoDB::Table
       Properties:
