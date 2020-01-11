@@ -31,6 +31,20 @@ export class RecipesAccess {
     return result.Items as Recipe[];
   }
 
+  async getRecipe(author, recipeId): Promise<Recipe> {
+    logger.info("Getting all Recipes");
+
+    const result = await this.docClient.get({
+      TableName: this.recipesTable,
+      Key: {
+        author,
+        id: recipeId
+      }
+    }).promise();
+
+    return result.Item as Recipe;
+  }
+
   async createRecipe(recipe: Recipe): Promise<Recipe> {
     logger.info("Creating Recipe: ", JSON.stringify(recipe));
 

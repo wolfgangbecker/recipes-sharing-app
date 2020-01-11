@@ -1,4 +1,7 @@
 <script>
+  import { Link } from "svelte-routing";
+
+  export let id;
   export let title;
   export let imageURL;
   export let author;
@@ -10,7 +13,9 @@
     <img src={imageURL}>
   </div>
   <div class="content">
-    <span class="header">{title}</span>
+    <Link to="recipes/{id}">
+      <span class="header">{title}</span>
+    </Link>
     <div class="meta">
       by {author}
     </div>

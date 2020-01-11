@@ -3,6 +3,7 @@
 
   import Recipes from "./pages/Recipes.svelte"
   import NewRecipe from "./pages/NewRecipe.svelte"
+  import RecipeDetails from "./pages/RecipeDetails.svelte"
   import NotFound from "./pages/NotFound.svelte"
 
   import FlashMessage from "./components/FlashMessage.svelte"
@@ -32,6 +33,7 @@
     </div>
     <div class="ui segment">
       <FlashMessage />
+      <Route path="recipes/:id" component="{RecipeDetails}" />
       <Route path="recipes" component="{Recipes}" />
       <Route path="recipes/new" component="{NewRecipe}" />
       <Route path="*"><NotFound /></Route>

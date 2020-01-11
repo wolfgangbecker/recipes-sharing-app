@@ -4,10 +4,14 @@ import { RecipesAccess } from "../dataLayer/recipesAccess";
 import { Recipe } from '../models/Recipe';
 import { CreateRecipe } from "../requests/CreateRecipe";
 
-const groupAccess = new RecipesAccess()
+const recipesAccess = new RecipesAccess()
 
 export async function getAllRecipes(): Promise<Recipe[]> {
-  return groupAccess.getAllRecipes("John Doe") // TODO: pull author from jwt token
+  return recipesAccess.getAllRecipes("John Doe") // TODO: pull author from jwt token
+}
+
+export async function getRecipe(recipeId): Promise<Recipe> {
+  return recipesAccess.getRecipe("John Doe", recipeId) // TODO: pull author from jwt token
 }
 
 export async function createRecipe(createRecipe: CreateRecipe): Promise<Recipe> {
@@ -17,5 +21,5 @@ export async function createRecipe(createRecipe: CreateRecipe): Promise<Recipe> 
     author: "John Doe" // TODO: pull from jwt token
   };
 
-  return groupAccess.createRecipe(recipe)
+  return recipesAccess.createRecipe(recipe)
 }
