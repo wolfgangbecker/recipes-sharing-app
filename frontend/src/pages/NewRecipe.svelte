@@ -2,6 +2,7 @@
   import request from "/utils/request";
   import message from "/messageStore";
 
+  let titleElement;
   let fields = {}
 
   const resetField = () => {
@@ -57,6 +58,7 @@
       .then(() => {
         message.show({ type: "success", title: "Success" })
         resetFields();
+        titleElement.focus();
       }).catch(() => {
         message.show({ type: "error", title: "Error" })
       })
@@ -72,6 +74,8 @@
       id="title"
       name="title"
       autocomplete="off"
+      autofocus
+      bind:this={titleElement}
       on:keydown={resetValidation}
       bind:value={fields.title.value}>
   </div>

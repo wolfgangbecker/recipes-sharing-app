@@ -31,8 +31,8 @@ export class RecipesAccess {
     return result.Items as Recipe[];
   }
 
-  async getRecipe(author, recipeId): Promise<Recipe> {
-    logger.info("Getting all Recipes");
+  async getRecipe(author: string, recipeId: string): Promise<Recipe> {
+    logger.info("Getting Recipe with id: ", recipeId);
 
     const result = await this.docClient.get({
       TableName: this.recipesTable,
@@ -43,6 +43,20 @@ export class RecipesAccess {
     }).promise();
 
     return result.Item as Recipe;
+  }
+
+  async deleteRecipe(author: string, recipeId: string): Promise<void> {
+    logger.info("Deleting Recipe with id: ", recipeId);
+
+    const result = await this.docClient.delete({
+      TableName: this.recipesTable,
+      Key: {
+        author,
+        id: recipeId
+      }
+    }).promise();
+
+    console.log(result)
   }
 
   async createRecipe(recipe: Recipe): Promise<Recipe> {

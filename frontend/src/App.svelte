@@ -33,8 +33,9 @@
     </div>
     <div class="ui segment">
       <FlashMessage />
-      <Route path="recipes/:id" component="{RecipeDetails}" />
+      <Route path="/" component="{Recipes}" />
       <Route path="recipes" component="{Recipes}" />
+      <Route path="recipes/:id" component="{RecipeDetails}" />
       <Route path="recipes/new" component="{NewRecipe}" />
       <Route path="*"><NotFound /></Route>
     </div>

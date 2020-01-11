@@ -14,11 +14,15 @@
 {#await promise}
   <div class="ui active massive centered inline loader"></div>
 {:then recipes}
-  <div class="ui cards">
-    {#each recipes as recipe}
-      <Recipe {...recipe} />
-    {/each}
-  </div>
+  {#if recipes.length === 0}
+    <p>No recipes available.</p>
+  {:else}
+    <div class="ui cards">
+      {#each recipes as recipe}
+        <Recipe {...recipe} />
+      {/each}
+    </div>
+  {/if}
 {:catch error}
   <p>Failed to fetch recipes.</p>
 {/await}

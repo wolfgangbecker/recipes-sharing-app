@@ -10,8 +10,12 @@ export async function getAllRecipes(): Promise<Recipe[]> {
   return recipesAccess.getAllRecipes("John Doe") // TODO: pull author from jwt token
 }
 
-export async function getRecipe(recipeId): Promise<Recipe> {
+export async function getRecipe(recipeId: string): Promise<Recipe> {
   return recipesAccess.getRecipe("John Doe", recipeId) // TODO: pull author from jwt token
+}
+
+export async function deleteRecipe(recipeId: string): Promise<void> {
+  return recipesAccess.deleteRecipe("John Doe", recipeId) // TODO: pull author from jwt token
 }
 
 export async function createRecipe(createRecipe: CreateRecipe): Promise<Recipe> {
