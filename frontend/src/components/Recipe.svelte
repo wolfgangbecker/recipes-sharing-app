@@ -9,7 +9,10 @@
   export let author;
   export let description;
 
+  let deleting = false;
+
   const handleDelete = async () => {
+    deleting = true
     await request.delete(`recipes/${id}`);
     // navigate to recipes and main page to refresh the recipes.
     await navigate("/recipes")
@@ -35,7 +38,11 @@
       <span class="header">{title}</span>
     </Link>
     <div class="right floated meta">
-      <i class="trash icon" on:click={handleDelete}></i>
+      {#if deleting}
+        <div class="ui active inline loader tiny"></div>
+      {:else}
+        <i class="trash icon" on:click={handleDelete}></i>
+      {/if}
     </div>
     <div class="meta">
       by {author}
