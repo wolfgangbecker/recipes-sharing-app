@@ -22,7 +22,7 @@
         New Recipe
       </NavLink>
       <NavLink to="recipes">
-        View Recipes
+        My Recipes
       </NavLink>
       <div class="right menu">
         <div class="item">

@@ -7,7 +7,7 @@ import { CreateRecipe } from "../requests/CreateRecipe";
 const groupAccess = new RecipesAccess()
 
 export async function getAllRecipes(): Promise<Recipe[]> {
-  return groupAccess.getAllRecipes()
+  return groupAccess.getAllRecipes("John Doe") // TODO: pull author from jwt token
 }
 
 export async function createRecipe(createRecipe: CreateRecipe): Promise<Recipe> {

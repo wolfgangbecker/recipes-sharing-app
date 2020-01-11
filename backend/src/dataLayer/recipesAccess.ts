@@ -10,12 +10,23 @@ export class RecipesAccess {
     private readonly recipesTable: any = process.env.RECIPES_TABLE
   ) {}
 
-  async getAllRecipes(): Promise<Recipe[]> {
+  async getAllRecipes(author: null|string = null): Promise<Recipe[]> {
     logger.info("Getting all Recipes");
+    let result;
 
-    const result = await this.docClient.scan({
-      TableName: this.recipesTable
-    }).promise();
+    if(!author) {
+      result = await this.docClient.scan({
+        TableName: this.recipesTable
+      }).promise();
+    } else {
+      result = await this.docClient.query({
+        TableName: this.recipesTable,
+        KeyConditionExpression: 'author = :author',
+        ExpressionAttributeValues: {
+          ':author': 'John Doe'
+        }
+      }).promise();
+    }
 
     return result.Items as Recipe[];
   }
