@@ -3,6 +3,7 @@
 
   import Recipes from "./pages/Recipes.svelte"
   import NewRecipe from "./pages/NewRecipe.svelte"
+  import EditRecipe from "./pages/EditRecipe.svelte"
   import RecipeDetails from "./pages/RecipeDetails.svelte"
   import NotFound from "./pages/NotFound.svelte"
 
@@ -36,6 +37,7 @@
       <Route path="/" component="{Recipes}" />
       <Route path="recipes" component="{Recipes}" />
       <Route path="recipes/:id" component="{RecipeDetails}" />
+      <Route path="recipes/:id/edit" component="{EditRecipe}" />
       <Route path="recipes/new" component="{NewRecipe}" />
       <Route path="*"><NotFound /></Route>
     </div>

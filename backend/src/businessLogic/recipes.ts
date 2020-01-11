@@ -3,6 +3,7 @@ import * as uuid from 'uuid';
 import { RecipesAccess } from "../dataLayer/recipesAccess";
 import { Recipe } from '../models/Recipe';
 import { CreateRecipe } from "../requests/CreateRecipe";
+import { UpdateRecipe } from "../requests/UpdateRecipe";
 
 const recipesAccess = new RecipesAccess()
 
@@ -26,4 +27,8 @@ export async function createRecipe(createRecipe: CreateRecipe): Promise<Recipe> 
   };
 
   return recipesAccess.createRecipe(recipe)
+}
+
+export async function updateRecipe(recipeId: string, updateRecipe: UpdateRecipe): Promise<Recipe> {
+  return recipesAccess.updateRecipe("John Doe", recipeId, updateRecipe)
 }

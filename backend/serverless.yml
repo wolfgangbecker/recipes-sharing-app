@@ -95,6 +95,19 @@ functions:
           - dynamodb:PutItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.RECIPES_TABLE}
 
+  UpdateRecipe:
+    handler: src/lambda/http/updateRecipe.handler
+    events:
+      - http:
+          path: /recipes/{recipeId}
+          method: patch
+          cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.RECIPES_TABLE}
+
 resources:
   Resources:
     RequestBodyValidator:

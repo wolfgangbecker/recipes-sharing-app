@@ -3,6 +3,7 @@ import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 
 import logger from '../utils/logger';
 import { Recipe } from '../models/Recipe';
+import { UpdateRecipe } from '../requests/UpdateRecipe';
 
 export class RecipesAccess {
   constructor(
@@ -65,6 +66,32 @@ export class RecipesAccess {
     const result = await this.docClient.put({
       TableName: this.recipesTable,
       Item: recipe
+    }).promise();
+
+    return result.Attributes as Recipe;
+  }
+
+  async updateRecipe(author: string, recipeId: string, updateRecipe: UpdateRecipe): Promise<Recipe> {
+    logger.info("Updating Recipe:", recipeId, ", with:", JSON.stringify(updateRecipe));
+
+    const result = await this.docClient.update({
+      TableName: this.recipesTable,
+      Key: {
+        author,
+        id: recipeId
+      },
+      UpdateExpression: 'set #title=:title, #imageURL=:imageURL, #description=:description',
+      ExpressionAttributeNames: {
+        "#title": "title",
+        "#imageURL": "imageURL",
+        "#description": "description"
+      },
+      ExpressionAttributeValues: {
+        ":title": updateRecipe.title,
+        ":imageURL": updateRecipe.imageURL,
+        ":description": updateRecipe.description
+      },
+      ReturnValues: "ALL_NEW"
     }).promise();
 
     return result.Attributes as Recipe;

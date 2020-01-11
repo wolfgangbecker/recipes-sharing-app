@@ -11,6 +11,10 @@
 
   let deleting = false;
 
+  const handleEdit = async () => {
+    navigate(`recipes/${id}/edit`)
+  }
+
   const handleDelete = async () => {
     deleting = true
     await request.delete(`recipes/${id}`);
@@ -38,6 +42,7 @@
       <span class="header">{title}</span>
     </Link>
     <div class="right floated meta">
+      <i class="edit icon" on:click={handleEdit}></i>
       {#if deleting}
         <div class="ui active inline loader tiny"></div>
       {:else}
