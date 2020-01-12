@@ -56,8 +56,6 @@ export class RecipesAccess {
         id: recipeId
       }
     }).promise();
-
-    console.log(result)
   }
 
   async createRecipe(recipe: Recipe): Promise<Recipe> {
@@ -81,15 +79,20 @@ export class RecipesAccess {
         id: recipeId
       },
       UpdateExpression: 'set #title=:title, #imageURL=:imageURL, #description=:description',
+      ConditionExpression: '#author = :author and #id = :recipeId',
       ExpressionAttributeNames: {
         "#title": "title",
         "#imageURL": "imageURL",
-        "#description": "description"
+        "#description": "description",
+        "#author": "author",
+        "#id": "id"
       },
       ExpressionAttributeValues: {
         ":title": updateRecipe.title,
         ":imageURL": updateRecipe.imageURL,
-        ":description": updateRecipe.description
+        ":description": updateRecipe.description,
+        ":author": author,
+        ":recipeId": recipeId
       },
       ReturnValues: "ALL_NEW"
     }).promise();

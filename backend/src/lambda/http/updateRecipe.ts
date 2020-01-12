@@ -23,7 +23,6 @@ const updateRecipeHandler: APIGatewayProxyHandler = async (event: APIGatewayProx
   const recipeId = event.pathParameters["recipeId"]
 
   try {
-    console.log("Body: ", event.body)
     const parsedBody = JSON.parse(event.body)
     const recipes = await updateRecipe(recipeId, parsedBody)
 

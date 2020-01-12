@@ -14,7 +14,6 @@ const createRecipeHandler: APIGatewayProxyHandler = async (event: APIGatewayProx
   }
 
   try {
-    console.log("Body: ", event.body)
     const parsedBody = JSON.parse(event.body)
     const recipes = await createRecipe(parsedBody)
 
