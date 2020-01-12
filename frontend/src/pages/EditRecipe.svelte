@@ -10,6 +10,7 @@
   export let id;
 
   let form;
+  let loading = true;
 
   const handleSubmit = event => {
     request.patch(`recipes/${id}`, event.detail)
@@ -36,8 +37,14 @@
           title: "Error",
           text: "Failed to fetch values"
         })
+      })
+      .finally(() => {
+        loading = false;
       });
   });
 </script>
 
+{#if loading}
+  <div class="ui active centered inline loader" in:fade></div>
+{/if}
 <RecipeForm on:submit={handleSubmit} bind:this={form} />
