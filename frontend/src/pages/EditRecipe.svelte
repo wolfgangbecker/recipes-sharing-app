@@ -1,5 +1,6 @@
 <script>
   import { onMount } from "svelte";
+  import { fade } from 'svelte/transition';
   import { navigate } from "svelte-routing";
 
   export let id;
@@ -81,7 +82,7 @@
   });
 </script>
 
-<form class="ui form" on:submit|preventDefault={handleSubmit}>
+<form class="ui form" on:submit|preventDefault={handleSubmit} in:fade>
   <div class="field" class:error={fields.title.error}>
     <label for="title">Title</label>
     <input

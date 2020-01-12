@@ -1,5 +1,6 @@
 <script>
   import { onMount } from "svelte";
+  import { fade } from 'svelte/transition';
 
   import request from "/utils/request";
   import Recipe from "/components/Recipe.svelte";
@@ -12,10 +13,10 @@
 </script>
 
 {#await promise}
-  <div class="ui active massive centered inline loader"></div>
+  <div class="ui active centered inline loader" in:fade></div>
 {:then recipes}
   {#if recipes.length === 0}
-    <p>No recipes available.</p>
+    <p in:fade>No recipes available.</p>
   {:else}
     <div class="ui cards">
       {#each recipes as recipe}
@@ -24,5 +25,5 @@
     </div>
   {/if}
 {:catch error}
-  <p>Failed to fetch recipes.</p>
+  <p in:fade>Failed to fetch recipes.</p>
 {/await}

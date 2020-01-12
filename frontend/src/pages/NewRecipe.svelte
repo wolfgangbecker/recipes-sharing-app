@@ -1,4 +1,5 @@
 <script>
+  import { fade } from 'svelte/transition';
   import request from "/utils/request";
   import message from "/messageStore";
 
@@ -65,7 +66,7 @@
   }
 </script>
 
-<form class="ui form" on:submit|preventDefault={handleSubmit}>
+<form class="ui form" on:submit|preventDefault={handleSubmit} in:fade>
   <div class="field" class:error={fields.title.error}>
     <label for="title">Title</label>
     <input

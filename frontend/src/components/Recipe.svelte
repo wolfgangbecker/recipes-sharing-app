@@ -1,5 +1,6 @@
 <script>
   import { Link, navigate } from "svelte-routing";
+  import { fade } from 'svelte/transition';
 
   import request from "/utils/request";
 
@@ -12,7 +13,7 @@
   let deleting = false;
 
   const handleEdit = async () => {
-    navigate(`recipes/${id}/edit`)
+    navigate(`/recipes/${id}/edit`)
   }
 
   const handleDelete = async () => {
@@ -33,7 +34,7 @@
   }
 </style>
 
-<div class="ui card">
+<div class="ui card" in:fade>
   <div class="image">
     <img src={imageURL}>
   </div>
@@ -44,7 +45,7 @@
     <div class="right floated meta">
       <i class="edit icon" on:click={handleEdit}></i>
       {#if deleting}
-        <div class="ui active inline loader tiny"></div>
+        <div class="ui active inline loader tiny" in:fade></div>
       {:else}
         <i class="trash icon" on:click={handleDelete}></i>
       {/if}
