@@ -7,6 +7,8 @@ provider:
   region: ${opt:region, 'eu-central-1'}
   environment:
     RECIPES_TABLE: Recipes-${self:provider.stage}
+    IMAGES_BUCKET: recipes-images-${self:provider.stage}
+    SIGNED_URL_EXPIRATION: 300
 
 plugins:
   - serverless-offline
@@ -94,6 +96,11 @@ functions:
         Action:
           - dynamodb:PutItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.RECIPES_TABLE}
+      - Effect: Allow
+        Action:
+          - s3:GetObject
+          - s3:PutObject
+        Resource: arn:aws:s3:::${self:provider.environment.IMAGES_BUCKET}/*
 
   UpdateRecipe:
     handler: src/lambda/http/updateRecipe.handler
@@ -134,3 +141,36 @@ resources:
           - AttributeName: id
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
+
+    ImagesBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.environment.IMAGES_BUCKET}
+        CorsConfiguration:
+          CorsRules:
+            -
+              AllowedOrigins:
+                - '*'
+              AllowedHeaders:
+                - '*'
+              AllowedMethods:
+                - GET
+                - PUT
+                - POST
+                - DELETE
+                - HEAD
+              MaxAge: 3000
+
+    ImagesBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        PolicyDocument:
+          Id: ImagesBucketPolicy
+          Version: "2012-10-17"
+          Statement:
+            - Sid: PublicreadForGetBucketObjects
+              Effect: Allow
+              Principal: '*'
+              Action: 's3:GetObject'
+              Resource: 'arn:aws:s3:::${self:provider.environment.IMAGES_BUCKET}/*'
+        Bucket: !Ref ImagesBucket

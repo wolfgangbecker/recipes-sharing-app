@@ -3,5 +3,5 @@ export interface Recipe {
   author: string
   title: string
   description: string
-  imageURL: string
+  imageURL?: string
 }

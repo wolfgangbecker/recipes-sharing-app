@@ -6,7 +6,15 @@
   let form;
 
   const handleSubmit = event => {
-    request.post("recipes", event.detail)
+    const formData = event.detail;
+
+    request.post("recipes", {
+      title: formData.title,
+      description: formData.description
+    })
+      .then(({data}) => {
+        return request.put(data.uploadUrl, formData.image);
+      })
       .then(() => {
         message.show({ type: "success", title: "Success" })
         form.reset();

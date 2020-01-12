@@ -16,7 +16,7 @@
   const resetFields = () => {
     fields = {
       title: resetField(),
-      imageURL: resetField(),
+      image: resetField(),
       description: resetField()
     };
   };
@@ -55,6 +55,8 @@
       return acc;
     }, {})
 
+    body.image = body.image[0];
+
     dispatch('submit', body);
   }
 
@@ -84,16 +86,17 @@
       on:keydown={resetValidation}
       bind:value={fields.title.value}>
   </div>
-  <div class="field" class:error={fields.imageURL.error}>
-    <label for="imageURL">ImageURL</label>
+  <div class="field" class:error={fields.image.error}>
+    <label for="image">Image</label>
     <input
       placeholder="Paste an image URL here"
-      type="text"
-      id="imageURL"
-      name="imageURL"
+      type="file"
+      id="image"
+      accept="image/*"
+      name="image"
       autocomplete="off"
       on:keydown={resetValidation}
-      bind:value={fields.imageURL.value}>
+      bind:files={fields.image.value}>
   </div>
   <div class="field" class:error={fields.description.error}>
     <label for="description">Description</label>

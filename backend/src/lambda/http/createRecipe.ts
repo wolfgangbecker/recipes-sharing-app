@@ -15,12 +15,13 @@ const createRecipeHandler: APIGatewayProxyHandler = async (event: APIGatewayProx
 
   try {
     const parsedBody = JSON.parse(event.body)
-    const recipes = await createRecipe(parsedBody)
+    const result = await createRecipe(parsedBody)
 
-    logger.info("Succesfully created: ", JSON.stringify(recipes))
+    logger.info("Succesfully created: ", JSON.stringify(result))
+
     return {
       statusCode: 201,
-      body: JSON.stringify(recipes)
+      body: JSON.stringify(result)
     };
   } catch (error) {
     logger.error("Error: ", error.message, "request body: ", event.body);

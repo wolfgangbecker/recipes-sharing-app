@@ -13,7 +13,15 @@
   let loading = true;
 
   const handleSubmit = event => {
-    request.patch(`recipes/${id}`, event.detail)
+    const formData = event.detail;
+
+    request.patch(`recipes/${id}`, {
+      title: formData.title,
+      description: formData.description
+    })
+      .then(({data}) => {
+        return request.put(data.uploadUrl, formData.image);
+      })
       .then(() => {
         message.show({ type: "success", title: "Success" })
         navigate('/recipes')
@@ -24,11 +32,11 @@
 
   onMount(() => {
     request.get(`recipes/${id}`)
-      .then(response => {
+      .then(({data}) => {
         form.setInitialValues({
-          title: response.data.title,
-          imageURL: response.data.imageURL,
-          description: response.data.description
+          title: data.title,
+          imageURL: data.imageURL,
+          description: data.description
         })
       })
       .catch(() => {
