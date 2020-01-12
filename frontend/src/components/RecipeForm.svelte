@@ -33,9 +33,9 @@
     let errorsPresent = false;
     const fieldsArray = Object.values(fields);
 
-    Object.values(fields).forEach(field => {
-      if(field.value.length === 0) {
-        field.error = true;
+    ["title", "description"].forEach(field => {
+      if(fields[field].value.length === 0) {
+        fields[field].error = true;
         errorsPresent = true
       }
     })

@@ -10,10 +10,12 @@
 
     request.post("recipes", {
       title: formData.title,
-      description: formData.description
+      description: formData.description,
+      hasImage: Boolean(formData.image) // signalize if signed url is required
     })
       .then(({data}) => {
-        return request.put(data.uploadUrl, formData.image);
+        if(formData.image)
+          return request.put(data.uploadUrl, formData.image);
       })
       .then(() => {
         message.show({ type: "success", title: "Success" })

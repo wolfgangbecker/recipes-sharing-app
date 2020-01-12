@@ -8,6 +8,9 @@
     },
     "description": {
       "type": "string"
+    },
+    "hasImage": {
+      "type": "boolean"
     }
   },
   "required": [

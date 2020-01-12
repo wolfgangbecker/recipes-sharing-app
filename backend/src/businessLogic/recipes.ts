@@ -24,16 +24,19 @@ export async function deleteRecipe(recipeId: string): Promise<void> {
 
 export async function createRecipe(createRecipe: CreateRecipe): Promise<{recipe: Recipe, uploadUrl: string}> {
   const recipeId = uuid.v4();
-
-  const recipe: Recipe = {
+  let uploadUrl;
+  let recipe: Recipe = {
     ...createRecipe,
     id: recipeId,
-    imageURL: `https://${imagesBucket}.s3.amazonaws.com/${recipeId}`,
     author: "John Doe" // TODO: pull from jwt token
   };
 
+  if(createRecipe.hasImage) {
+    recipe = { ...recipe, imageURL: `https://${imagesBucket}.s3.amazonaws.com/${recipeId}` };
+    uploadUrl = imagesAccess.getUploadUrl(recipeId);
+  }
+
   const newRecipe = await recipesAccess.createRecipe(recipe);
-  const uploadUrl = imagesAccess.getUploadUrl(recipeId);
 
   return {
     recipe: newRecipe,
