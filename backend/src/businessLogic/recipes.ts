@@ -19,6 +19,9 @@ export async function getRecipe(recipeId: string): Promise<Recipe> {
 }
 
 export async function deleteRecipe(recipeId: string): Promise<void> {
+  try {
+    await imagesAccess.delete(recipeId);
+  } catch {}
   return recipesAccess.deleteRecipe("John Doe", recipeId) // TODO: pull author from jwt token
 }
 
@@ -55,7 +58,9 @@ export async function updateRecipe(recipeId: string, updateRecipe: UpdateRecipe)
   if(updateRecipe.hasImage) {
     const imageURL = `https://${imagesBucket}.s3.amazonaws.com/${recipeId}`
     recipe = { ...recipe, imageURL };
-    await imagesAccess.delete(recipeId);
+    try {
+      await imagesAccess.delete(recipeId);
+    } catch {}
     uploadUrl = imagesAccess.getUploadUrl(recipeId);
   }
 

@@ -77,6 +77,10 @@ functions:
         Action:
           - dynamodb:DeleteItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.RECIPES_TABLE}
+      - Effect: Allow
+        Action:
+          - s3:DeleteObject
+        Resource: arn:aws:s3:::${self:provider.environment.IMAGES_BUCKET}/*
 
   CreateRecipe:
     handler: src/lambda/http/createRecipe.handler
