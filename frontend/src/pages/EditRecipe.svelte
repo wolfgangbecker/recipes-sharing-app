@@ -1,5 +1,6 @@
 <script>
   import { onMount } from "svelte";
+  import { navigate } from "svelte-routing";
 
   export let id;
 
@@ -61,8 +62,7 @@
     request.patch(`recipes/${id}`, body)
       .then(() => {
         message.show({ type: "success", title: "Success" })
-        resetFields();
-        titleElement.focus();
+        navigate('/recipes')
       }).catch(() => {
         message.show({ type: "error", title: "Error" })
       })
