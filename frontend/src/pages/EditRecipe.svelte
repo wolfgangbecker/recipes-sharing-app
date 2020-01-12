@@ -17,10 +17,12 @@
 
     request.patch(`recipes/${id}`, {
       title: formData.title,
-      description: formData.description
+      description: formData.description,
+      hasImage: Boolean(formData.image) // signalize if signed url is required
     })
       .then(({data}) => {
-        return request.put(data.uploadUrl, formData.image);
+        if(formData.image)
+          return request.put(data.uploadUrl, formData.image);
       })
       .then(() => {
         message.show({ type: "success", title: "Success" })
@@ -35,7 +37,6 @@
       .then(({data}) => {
         form.setInitialValues({
           title: data.title,
-          imageURL: data.imageURL,
           description: data.description
         })
       })

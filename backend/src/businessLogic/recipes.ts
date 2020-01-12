@@ -44,6 +44,25 @@ export async function createRecipe(createRecipe: CreateRecipe): Promise<{recipe:
   }
 }
 
-export async function updateRecipe(recipeId: string, updateRecipe: UpdateRecipe): Promise<Recipe> {
-  return recipesAccess.updateRecipe("John Doe", recipeId, updateRecipe)
+export async function updateRecipe(recipeId: string, updateRecipe: UpdateRecipe): Promise<{recipe: Recipe, uploadUrl: string}> {
+  let uploadUrl;
+  let recipe: Recipe = {
+    ...updateRecipe,
+    id: recipeId,
+    author: "John Doe" // TODO: pull from jwt token
+  };
+
+  if(updateRecipe.hasImage) {
+    const imageURL = `https://${imagesBucket}.s3.amazonaws.com/${recipeId}`
+    recipe = { ...recipe, imageURL };
+    await imagesAccess.delete(recipeId);
+    uploadUrl = imagesAccess.getUploadUrl(recipeId);
+  }
+
+  const updatedRecipe = await recipesAccess.updateRecipe("John Doe", recipeId, recipe)
+
+  return {
+    recipe: updatedRecipe,
+    uploadUrl
+  }
 }

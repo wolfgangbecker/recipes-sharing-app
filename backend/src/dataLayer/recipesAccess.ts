@@ -3,7 +3,6 @@ import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 
 import logger from '../utils/logger';
 import { Recipe } from '../models/Recipe';
-import { UpdateRecipe } from '../requests/UpdateRecipe';
 
 export class RecipesAccess {
   constructor(
@@ -69,33 +68,59 @@ export class RecipesAccess {
     return result.Attributes as Recipe;
   }
 
-  async updateRecipe(author: string, recipeId: string, updateRecipe: UpdateRecipe): Promise<Recipe> {
+  async updateRecipe(author: string, recipeId: string, updateRecipe: Recipe): Promise<Recipe> {
     logger.info("Updating Recipe:", recipeId, ", with:", JSON.stringify(updateRecipe));
+    let result;
 
-    const result = await this.docClient.update({
-      TableName: this.recipesTable,
-      Key: {
-        author,
-        id: recipeId
-      },
-      UpdateExpression: 'set #title=:title, #imageURL=:imageURL, #description=:description',
-      ConditionExpression: '#author = :author and #id = :recipeId',
-      ExpressionAttributeNames: {
-        "#title": "title",
-        "#imageURL": "imageURL",
-        "#description": "description",
-        "#author": "author",
-        "#id": "id"
-      },
-      ExpressionAttributeValues: {
-        ":title": updateRecipe.title,
-        ":imageURL": updateRecipe.imageURL,
-        ":description": updateRecipe.description,
-        ":author": author,
-        ":recipeId": recipeId
-      },
-      ReturnValues: "ALL_NEW"
-    }).promise();
+    if(updateRecipe.imageURL) {
+      result = await this.docClient.update({
+        TableName: this.recipesTable,
+        Key: {
+          author,
+          id: recipeId
+        },
+        UpdateExpression: 'set #title=:title, #imageURL=:imageURL, #description=:description',
+        ConditionExpression: '#author = :author and #id = :recipeId',
+        ExpressionAttributeNames: {
+          "#title": "title",
+          "#imageURL": "imageURL",
+          "#description": "description",
+          "#author": "author",
+          "#id": "id"
+        },
+        ExpressionAttributeValues: {
+          ":title": updateRecipe.title,
+          ":imageURL": updateRecipe.imageURL,
+          ":description": updateRecipe.description,
+          ":author": author,
+          ":recipeId": recipeId
+        },
+        ReturnValues: "ALL_NEW"
+      }).promise();
+    } else {
+      result = await this.docClient.update({
+        TableName: this.recipesTable,
+        Key: {
+          author,
+          id: recipeId
+        },
+        UpdateExpression: 'set #title=:title, #description=:description',
+        ConditionExpression: '#author = :author and #id = :recipeId',
+        ExpressionAttributeNames: {
+          "#title": "title",
+          "#description": "description",
+          "#author": "author",
+          "#id": "id"
+        },
+        ExpressionAttributeValues: {
+          ":title": updateRecipe.title,
+          ":description": updateRecipe.description,
+          ":author": author,
+          ":recipeId": recipeId
+        },
+        ReturnValues: "ALL_NEW"
+      }).promise();
+    }
 
     return result.Attributes as Recipe;
   }

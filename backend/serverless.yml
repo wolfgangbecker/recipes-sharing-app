@@ -114,6 +114,12 @@ functions:
         Action:
           - dynamodb:UpdateItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.RECIPES_TABLE}
+      - Effect: Allow
+        Action:
+          - s3:GetObject
+          - s3:PutObject
+          - s3:DeleteObject
+        Resource: arn:aws:s3:::${self:provider.environment.IMAGES_BUCKET}/*
 
 resources:
   Resources:
