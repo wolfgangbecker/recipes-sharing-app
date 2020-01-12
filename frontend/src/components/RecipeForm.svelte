@@ -62,6 +62,12 @@
     resetFields();
     titleElement.focus();
   }
+
+  export const setInitialValues = (initialValues) => {
+    Object.entries(initialValues).forEach(([key, value]) => {
+      fields[key].value = value
+    })
+  }
 </script>
 
 <form class="ui form" on:submit|preventDefault={handleSubmit} in:fade>
