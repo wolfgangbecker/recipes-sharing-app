@@ -1,5 +1,8 @@
 import axios from "axios";
 
+import { apiEndpoint } from '/../config';
+
 export default axios.create({
-  baseURL: 'http://localhost:3000/'
+  baseURL: apiEndpoint
+  // baseURL: 'http://localhost:3000'
 })

@@ -1,6 +1,8 @@
 <script>
   import { Router, Link, Route } from "svelte-routing";
 
+  import auth from "/utils/auth";
+
   import Recipes from "./pages/Recipes.svelte"
   import NewRecipe from "./pages/NewRecipe.svelte"
   import EditRecipe from "./pages/EditRecipe.svelte"
@@ -9,11 +11,16 @@
 
   import FlashMessage from "./components/FlashMessage.svelte"
   import NavLink from "./components/NavLink.svelte"
+  import AuthCallback from "./components/AuthCallback.svelte"
 </script>
 
 <style>
   .container {
     margin-top: 3rem;
+  }
+
+  .login:hover {
+    cursor: pointer;
   }
 </style>
 
@@ -27,7 +34,7 @@
         My Recipes
       </NavLink>
       <div class="right menu">
-        <div class="item">
+        <div class="item login" on:click={auth.login}>
           Login
         </div>
       </div>
@@ -39,6 +46,7 @@
       <Route path="recipes/:id" component="{RecipeDetails}" />
       <Route path="recipes/:id/edit" component="{EditRecipe}" />
       <Route path="recipes/new" component="{NewRecipe}" />
+      <Route path="auth" component="{AuthCallback}" />
       <Route path="*"><NotFound /></Route>
     </div>
   </div>
