@@ -22,17 +22,23 @@
   .login:hover {
     cursor: pointer;
   }
+
+  .grid {
+    padding: 10px 0 20px 0;
+  }
 </style>
 
 <Router>
   <div class="ui container">
     <div class="ui pointing menu">
-      <NavLink to="recipes/new">
-        New Recipe
-      </NavLink>
-      <NavLink to="recipes">
-        My Recipes
-      </NavLink>
+      {#if $isAuthenticated}
+        <NavLink to="recipes/new">
+          New Recipe
+        </NavLink>
+        <NavLink to="recipes">
+          My Recipes
+        </NavLink>
+      {/if}
       <div class="right menu">
         {#if $isAuthenticated}
           <div class="item login" on:click={auth.logout}>
@@ -47,11 +53,21 @@
     </div>
     <div class="ui segment">
       <FlashMessage />
-      <Route path="/" component="{Recipes}" />
-      <Route path="recipes" component="{Recipes}" />
-      <Route path="recipes/:id" component="{RecipeDetails}" />
+      <Route path="/">
+        <div class="ui centered grid spacing">
+          <div class="ui row huge header">Welcome!</div>
+          {#if !$isAuthenticated}
+            <p>Please login to manage your recipes.</p>
+          {:else}
+            <p class="row">To create a recipe go to "New Recipe"</p>
+            <p class="row">To manage existing recipes go to "My Recipes"</p>
+          {/if}
+        </div>
+      </Route>
       <Route path="recipes/:id/edit" component="{EditRecipe}" />
       <Route path="recipes/new" component="{NewRecipe}" />
+      <Route path="recipes" component="{Recipes}" />
+      <Route path="recipes/:id" component="{RecipeDetails}" />
       <Route path="auth" component="{AuthCallback}" />
       <Route path="*"><NotFound /></Route>
     </div>
