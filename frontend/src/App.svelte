@@ -1,7 +1,7 @@
 <script>
   import { Router, Link, Route } from "svelte-routing";
 
-  import auth from "/utils/auth";
+  import auth, {isAuthenticated} from "/utils/auth";
 
   import Recipes from "./pages/Recipes.svelte"
   import NewRecipe from "./pages/NewRecipe.svelte"
@@ -34,9 +34,15 @@
         My Recipes
       </NavLink>
       <div class="right menu">
-        <div class="item login" on:click={auth.login}>
-          Login
-        </div>
+        {#if $isAuthenticated}
+          <div class="item login" on:click={auth.logout}>
+            Logout
+          </div>
+        {:else}
+          <div class="item login" on:click={auth.login}>
+            Login
+          </div>
+        {/if}
       </div>
     </div>
     <div class="ui segment">
