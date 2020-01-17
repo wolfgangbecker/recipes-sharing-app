@@ -9,6 +9,7 @@ provider:
     RECIPES_TABLE: Recipes-${self:provider.stage}
     IMAGES_BUCKET: recipes-images-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
+    AUTH0_CERTIFICATE_URL: https://dev-9ncdqdat.eu.auth0.com/.well-known/jwks.json
 
 plugins:
   - serverless-offline
@@ -38,11 +39,15 @@ custom:
         schema: ${file(src/requestSchemas/create-recipe-request.json)}
 
 functions:
+  Auth:
+    handler: src/lambda/auth/auth0Authorizer.handler
+
   GetRecipes:
     handler: src/lambda/http/getRecipes.handler
     events:
       - http:
           path: /recipes
+          authorizer: Auth
           method: get
           cors: true
     iamRoleStatements:
