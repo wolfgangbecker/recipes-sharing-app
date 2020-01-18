@@ -22,8 +22,8 @@
     try {
       await request.delete(`recipes/${id}`);
       // navigate to recipes and main page to refresh the recipes.
-      await navigate("/recipes")
-      navigate("/");
+      await navigate("/")
+      navigate("/recipes");
     } catch {
       deleting = false
       message.show({
