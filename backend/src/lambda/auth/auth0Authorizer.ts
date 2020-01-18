@@ -48,13 +48,26 @@ export const handler = async (
   }
 }
 
+function chunk(str: string, limit) {
+  var chunks: string[] = [];
+  var i: number;
+  var len: number = str.length;
+
+  for(i = 0; i < len; i += limit) {
+    chunks.push(str.substr(i, limit))
+  }
+
+  return chunks
+};
+
 async function verifyToken(authHeader: string): Promise<JwtPayload> {
   const token = getToken(authHeader)
 
   if(!certificate) {
     const {data} = await Axios.get(jwksUrl)
-    // TODO: Figure out how to read the cert properly
-    certificate = data.keys[0]["x5c"][0]
+    certificate = "-----BEGIN CERTIFICATE-----\n" +
+      chunk(data.keys[0]["x5c"][0], 64).join("\n") +
+      "\n-----END CERTIFICATE-----"
   }
 
   return verify(token, certificate, { algorithms: ['RS256']}) as JwtPayload
