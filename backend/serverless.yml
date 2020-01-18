@@ -37,6 +37,9 @@ custom:
       - name: CreateRecipeRequest
         contentType: application/json
         schema: ${file(src/requestSchemas/create-recipe-request.json)}
+      - name: UpdateRecipeRequest
+        contentType: application/json
+        schema: ${file(src/requestSchemas/update-recipe-request.json)}
 
 functions:
   Auth:
@@ -122,6 +125,12 @@ functions:
           authorizer: Auth
           method: patch
           cors: true
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: Update a recipe
+            description: Update a recipe
+            requestModels:
+              'application/json': UpdateRecipeRequest
     iamRoleStatements:
       - Effect: Allow
         Action:
