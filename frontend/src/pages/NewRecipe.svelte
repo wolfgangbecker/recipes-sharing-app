@@ -1,4 +1,5 @@
 <script>
+  import axios from "axios";
   import request from "/utils/request";
   import message from "/messageStore";
   import RecipeForm from "/components/RecipeForm.svelte";
@@ -15,7 +16,7 @@
     })
       .then(({data}) => {
         if(formData.image)
-          return request.put(data.uploadUrl, formData.image);
+          return axios.put(data.uploadUrl, formData.image);
       })
       .then(() => {
         message.show({ type: "success", title: "Success" })

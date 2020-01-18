@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import { fade } from 'svelte/transition';
   import { navigate } from "svelte-routing";
+  import axios from "axios";
 
   import request from "/utils/request";
   import message from "/messageStore";
@@ -22,7 +23,7 @@
     })
       .then(({data}) => {
         if(formData.image)
-          return request.put(data.uploadUrl, formData.image);
+          return axios.put(data.uploadUrl, formData.image);
       })
       .then(() => {
         message.show({ type: "success", title: "Success" })
