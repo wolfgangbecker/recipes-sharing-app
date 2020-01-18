@@ -2,6 +2,8 @@
   import { createEventDispatcher } from 'svelte';
   import { fade } from 'svelte/transition';
 
+  export let submitting = false;
+
   const dispatch = createEventDispatcher();
   let titleElement;
   let fields = {}
@@ -108,5 +110,8 @@
       on:keydown={resetValidation}
       bind:value={fields.description.value}></textarea>
   </div>
-  <button class="ui button" type="submit">Submit</button>
+
+  <button class="ui button" type="submit" class:loading={submitting}>
+    Submit
+  </button>
 </form>

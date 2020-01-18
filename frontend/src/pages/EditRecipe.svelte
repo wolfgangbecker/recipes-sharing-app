@@ -12,9 +12,11 @@
 
   let form;
   let loading = true;
+  let updating = false;
 
   const handleSubmit = event => {
     const formData = event.detail;
+    updating = true;
 
     request.patch(`recipes/${id}`, {
       title: formData.title,
@@ -30,6 +32,9 @@
         navigate('/recipes')
       }).catch(() => {
         message.show({ type: "error", title: "Error" })
+      })
+      .finally(() => {
+        updating = false;
       })
   }
 
@@ -57,4 +62,4 @@
 {#if loading}
   <div class="ui active centered inline loader" in:fade></div>
 {/if}
-<RecipeForm on:submit={handleSubmit} bind:this={form} />
+<RecipeForm on:submit={handleSubmit} bind:this={form} submitting={updating} />

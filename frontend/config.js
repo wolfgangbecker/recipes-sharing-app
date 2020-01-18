@@ -8,6 +8,7 @@ const clientId = "dgbBMb1Mz1MAD9I9jBYKC3x7FfAJZRmD"
 const callbackUrl = "http://localhost:1234/auth"
 
 export const apiEndpoint = `https://${apiId}.execute-api.${region}.amazonaws.com/${stage}`
+// export const apiEndpoint = 'http://localhost:3000'
 
 export const authConfig = {
   domain,

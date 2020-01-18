@@ -5,9 +5,11 @@
   import RecipeForm from "/components/RecipeForm.svelte";
 
   let form;
+  let creating = false;
 
   const handleSubmit = event => {
     const formData = event.detail;
+    creating = true;
 
     request.post("recipes", {
       title: formData.title,
@@ -24,7 +26,10 @@
       }).catch(() => {
         message.show({ type: "error", title: "Error" })
       })
+      .finally(() => {
+        creating = false;
+      })
   }
 </script>
 
-<RecipeForm on:submit={handleSubmit} bind:this={form} />
+<RecipeForm on:submit={handleSubmit} bind:this={form} submitting={creating} />
