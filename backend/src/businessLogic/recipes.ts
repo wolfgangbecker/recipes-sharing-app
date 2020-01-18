@@ -10,28 +10,28 @@ const imagesBucket = process.env.IMAGES_BUCKET
 const recipesAccess = new RecipesAccess()
 const imagesAccess = new ImagesAccess()
 
-export async function getAllRecipes(): Promise<Recipe[]> {
-  return recipesAccess.getAllRecipes("John Doe") // TODO: pull author from jwt token
+export async function getAllRecipes(userId: string): Promise<Recipe[]> {
+  return recipesAccess.getAllRecipes(userId)
 }
 
-export async function getRecipe(recipeId: string): Promise<Recipe> {
-  return recipesAccess.getRecipe("John Doe", recipeId) // TODO: pull author from jwt token
+export async function getRecipe(userId: string, recipeId: string): Promise<Recipe> {
+  return recipesAccess.getRecipe(userId, recipeId)
 }
 
-export async function deleteRecipe(recipeId: string): Promise<void> {
+export async function deleteRecipe(userId: string, recipeId: string): Promise<void> {
   try {
     await imagesAccess.delete(recipeId);
   } catch {}
-  return recipesAccess.deleteRecipe("John Doe", recipeId) // TODO: pull author from jwt token
+  return recipesAccess.deleteRecipe(userId, recipeId)
 }
 
-export async function createRecipe(createRecipe: CreateRecipe): Promise<{recipe: Recipe, uploadUrl: string}> {
+export async function createRecipe(userId: string, createRecipe: CreateRecipe): Promise<{recipe: Recipe, uploadUrl: string}> {
   const recipeId = uuid.v4();
   let uploadUrl;
   let recipe: Recipe = {
     ...createRecipe,
     id: recipeId,
-    author: "John Doe" // TODO: pull from jwt token
+    author: userId
   };
 
   if(createRecipe.hasImage) {
@@ -47,12 +47,12 @@ export async function createRecipe(createRecipe: CreateRecipe): Promise<{recipe:
   }
 }
 
-export async function updateRecipe(recipeId: string, updateRecipe: UpdateRecipe): Promise<{recipe: Recipe, uploadUrl: string}> {
+export async function updateRecipe(userId: string, recipeId: string, updateRecipe: UpdateRecipe): Promise<{recipe: Recipe, uploadUrl: string}> {
   let uploadUrl;
   let recipe: Recipe = {
     ...updateRecipe,
     id: recipeId,
-    author: "John Doe" // TODO: pull from jwt token
+    author: userId
   };
 
   if(updateRecipe.hasImage) {
@@ -64,7 +64,7 @@ export async function updateRecipe(recipeId: string, updateRecipe: UpdateRecipe)
     uploadUrl = imagesAccess.getUploadUrl(recipeId);
   }
 
-  const updatedRecipe = await recipesAccess.updateRecipe("John Doe", recipeId, recipe)
+  const updatedRecipe = await recipesAccess.updateRecipe(userId, recipeId, recipe)
 
   return {
     recipe: updatedRecipe,

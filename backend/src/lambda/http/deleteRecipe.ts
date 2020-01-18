@@ -3,6 +3,7 @@ import * as middy from 'middy';
 import { cors } from 'middy/middlewares'
 
 import { deleteRecipe } from '../../businessLogic/recipes';
+import { getUserId } from '../../auth/utils';
 
 const deleteRecipeHandler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   if(!(event.pathParameters && event.pathParameters["recipeId"])) {
@@ -15,7 +16,8 @@ const deleteRecipeHandler: APIGatewayProxyHandler = async (event: APIGatewayProx
   const recipeId = event.pathParameters["recipeId"]
 
   try {
-    await deleteRecipe(recipeId)
+    const userId = getUserId(event);
+    await deleteRecipe(userId, recipeId)
 
     return {
       statusCode: 204,

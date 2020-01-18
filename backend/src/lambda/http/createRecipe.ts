@@ -4,6 +4,7 @@ import { cors } from 'middy/middlewares'
 
 import { createRecipe } from '../../businessLogic/recipes';
 import logger from '../../utils/logger';
+import { getUserId } from '../../auth/utils';
 
 const createRecipeHandler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   if(!event.body) {
@@ -14,8 +15,9 @@ const createRecipeHandler: APIGatewayProxyHandler = async (event: APIGatewayProx
   }
 
   try {
+    const userId = getUserId(event);
     const parsedBody = JSON.parse(event.body)
-    const result = await createRecipe(parsedBody)
+    const result = await createRecipe(userId, parsedBody)
 
     logger.info("Succesfully created: ", JSON.stringify(result))
 

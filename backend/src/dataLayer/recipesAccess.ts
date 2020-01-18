@@ -23,7 +23,7 @@ export class RecipesAccess {
         TableName: this.recipesTable,
         KeyConditionExpression: 'author = :author',
         ExpressionAttributeValues: {
-          ':author': 'John Doe'
+          ':author': author
         }
       }).promise();
     }

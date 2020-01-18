@@ -3,7 +3,7 @@ import { verify } from 'jsonwebtoken'
 import Axios from 'axios'
 
 import logger from '../../utils/logger'
-import { JwtPayload } from '../../auth/JwtPayloads'
+import { JwtToken } from '../../auth/JwtToken'
 
 let certificate;
 const jwksUrl: string = process.env.AUTH0_CERTIFICATE_URL || "";
@@ -60,7 +60,7 @@ function chunk(str: string, limit) {
   return chunks
 };
 
-async function verifyToken(authHeader: string): Promise<JwtPayload> {
+async function verifyToken(authHeader: string): Promise<JwtToken>{
   const token = getToken(authHeader)
 
   if(!certificate) {
@@ -70,7 +70,7 @@ async function verifyToken(authHeader: string): Promise<JwtPayload> {
       "\n-----END CERTIFICATE-----"
   }
 
-  return verify(token, certificate, { algorithms: ['RS256']}) as JwtPayload
+  return verify(token, certificate, { algorithms: ['RS256']}) as JwtToken
 }
 
 function getToken(authHeader: string): string {

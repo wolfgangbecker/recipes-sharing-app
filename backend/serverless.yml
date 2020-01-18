@@ -62,6 +62,7 @@ functions:
     events:
       - http:
           path: /recipes/{recipeId}
+          authorizer: Auth
           method: get
           cors: true
     iamRoleStatements:
@@ -75,6 +76,7 @@ functions:
     events:
       - http:
           path: /recipes/{recipeId}
+          authorizer: Auth
           method: delete
           cors: true
     iamRoleStatements:
@@ -92,6 +94,7 @@ functions:
     events:
       - http:
           path: /recipes
+          authorizer: Auth
           method: post
           cors: true
           reqValidatorName: RequestBodyValidator
@@ -116,6 +119,7 @@ functions:
     events:
       - http:
           path: /recipes/{recipeId}
+          authorizer: Auth
           method: patch
           cors: true
     iamRoleStatements:

@@ -4,6 +4,7 @@ import { cors } from 'middy/middlewares'
 
 import { updateRecipe } from '../../businessLogic/recipes';
 import logger from '../../utils/logger';
+import { getUserId } from '../../auth/utils';
 
 const updateRecipeHandler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   if(!(event.pathParameters && event.pathParameters["recipeId"])) {
@@ -24,7 +25,8 @@ const updateRecipeHandler: APIGatewayProxyHandler = async (event: APIGatewayProx
 
   try {
     const parsedBody = JSON.parse(event.body)
-    const recipes = await updateRecipe(recipeId, parsedBody)
+    const userId = getUserId(event);
+    const recipes = await updateRecipe(userId, recipeId, parsedBody)
 
     logger.info("Succesfully updated: ", JSON.stringify(recipes))
     return {

@@ -2,6 +2,7 @@
   import { Link, navigate } from "svelte-routing";
   import { fade } from 'svelte/transition';
 
+  import message from "/messageStore";
   import request from "/utils/request";
 
   export let id;
@@ -18,10 +19,19 @@
 
   const handleDelete = async () => {
     deleting = true
-    await request.delete(`recipes/${id}`);
-    // navigate to recipes and main page to refresh the recipes.
-    await navigate("/recipes")
-    navigate("/");
+    try {
+      await request.delete(`recipes/${id}`);
+      // navigate to recipes and main page to refresh the recipes.
+      await navigate("/recipes")
+      navigate("/");
+    } catch {
+      deleting = false
+      message.show({
+        type: "error",
+        title: "Error",
+        text: "Failed to delete recipe"
+      })
+    }
   }
 </script>
 
