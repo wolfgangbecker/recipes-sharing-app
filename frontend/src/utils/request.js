@@ -4,8 +4,7 @@ import auth, {isAuthenticated} from "./auth";
 import { apiEndpoint } from '/../config';
 
 const request = axios.create({
-  baseURL: apiEndpoint,
-  // baseURL: 'http://localhost:3000'
+  baseURL: apiEndpoint
 })
 
 isAuthenticated.subscribe(() => {
