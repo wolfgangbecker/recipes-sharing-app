@@ -17,7 +17,7 @@
     "json-server": "0.15.1",
     "parcel-bundler": "1.12.4",
     "parcel-plugin-svelte": "4.0.5",
-    "svelte": "3.16.7"
+    "svelte": "3.49.0"
   },
   "dependencies": {
     "auth0-js": "9.12.1",
