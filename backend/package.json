@@ -6,7 +6,7 @@
   "dependencies": {
     "@types/aws-lambda": "8.10.39",
     "axios": "0.19.1",
-    "jsonwebtoken": "8.5.1",
+    "jsonwebtoken": "9.0.0",
     "middy": "0.33.2",
     "serverless-aws-documentation": "1.1.0",
     "serverless-plugin-typescript": "1.1.9",
