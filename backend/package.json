@@ -19,7 +19,7 @@
     "aws-sdk": "2.596.0",
     "serverless-dynamodb-local": "0.2.38",
     "serverless-iam-roles-per-function": "2.0.2",
-    "serverless-offline": "5.12.1"
+    "serverless-offline": "12.0.4"
   },
   "scripts": {
     "start": "sls offline"
